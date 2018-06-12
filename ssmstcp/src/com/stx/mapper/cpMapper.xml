@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.stx.mapper.CpMapper">
+	
+	<insert id="save" parameterType="Cp">
+		insert into cp 
+		values(#{id},#{uid},#{tid},#{pic},#{title},#{content},#{createtime},#{ydl})
+	</insert>
+	
+	<update id="update" parameterType="Cp">
+		update cp 
+		set tid=#{tid},pic=#{pic},title=#{title},content=#{content} 
+		where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from cp where id=#{id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="selectById" parameterType="String" resultType="Cp">
+		select * from cp where id=#{id}
+	</select>
+	
+	<select id="selectByUser"  parameterType="Map"   resultType="Cp">
+		select c.*,d.realname uname from 
+	(select 
+	a.id,a.uid,a.tid,a.pic,a.title,a.content,a.createtime,a.ydl,b.name tname 
+	from cp a,type b where a.tid=b.id and uid=#{uid}) c,cuser d where c.uid=d.id
+		limit #{start},#{length}
+	</select>
+
+	<select id="getCountByUser"  resultType="int" parameterType="String">
+		select count(*) from cp where uid=#{uid}
+	</select>
+	
+	
+	<select id="selectByType"  parameterType="Map"   resultType="Cp">
+	select c.*,d.realname uname from 
+	(select 
+	a.id,a.uid,a.tid,a.pic,a.title,a.content,a.createtime,a.ydl,b.name tname 
+	from cp a,type b where a.tid=b.id and tid=#{tid}) c,cuser d where c.uid=d.id
+		limit #{start},#{length}
+	</select>
+
+	<select id="getCountByType"  resultType="int" parameterType="String">
+		select count(*) from cp where tid=#{tid}
+	</select>
+	
+	
+	<select id="selectAll"  parameterType="Map"   resultType="Cp">
+		select c.*,d.realname uname from 
+	(select 
+	a.id,a.uid,a.tid,a.pic,a.title,a.content,a.createtime,a.ydl,b.name tname 
+	from cp a,type b where a.tid=b.id) c,cuser d where c.uid=d.id
+		limit #{start},#{length}
+	</select>
+
+	<select id="getCount"  resultType="int" >
+		select count(*) from cp 
+	</select>
+	
+</mapper>

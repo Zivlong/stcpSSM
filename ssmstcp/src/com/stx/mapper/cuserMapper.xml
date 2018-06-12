@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.stx.mapper.CuserMapper">
+	
+	<insert id="register" parameterType="Cuser">
+		insert into cuser 
+		 values(#{id},#{zh},#{pass},#{realname},#{mobile},#{pic},#{type});
+	</insert>
+	<update id="update" parameterType="Cuser">
+		update cuser 
+		set pass=#{pass},mobile=#{mobile},pic=#{pic} 
+		where id=#{id}
+	</update>
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="login" parameterType="Cuser" resultType="Cuser">
+		select * from cuser where zh=#{zh} and pass=#{pass}
+	</select>
+	
+	
+	
+</mapper>
